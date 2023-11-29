@@ -7,8 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		830175B22A44AC87008CAD8B /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830175B12A44AC87008CAD8B /* App.swift */; };
-		830175B42A44AC87008CAD8B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830175B32A44AC87008CAD8B /* ContentView.swift */; };
+		4F2470562B16DD8900F4278D /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F2470552B16DD8900F4278D /* main.mm */; };
+		4F2470592B16DDCE00F4278D /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F2470582B16DDCE00F4278D /* AppDelegate.mm */; };
+		4F24705C2B16DDFD00F4278D /* SceneDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F24705B2B16DDFD00F4278D /* SceneDelegate.mm */; };
+		4F24705F2B16DF1A00F4278D /* ImmersiveSceneDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F24705E2B16DF1A00F4278D /* ImmersiveSceneDelegate.mm */; };
+		4F2470682B17127300F4278D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2470672B17127300F4278D /* UIKit.framework */; };
+		4F24706C2B1712BD00F4278D /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F24706B2B1712BD00F4278D /* ARKit.framework */; };
+		4F2470712B1712F100F4278D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2470702B1712F100F4278D /* QuartzCore.framework */; };
+		4F2470722B17130000F4278D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2470692B17128800F4278D /* CoreGraphics.framework */; };
+		4F2470742B17131000F4278D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F2470732B17131000F4278D /* ImageIO.framework */; };
 		830175BA2A44AC87008CAD8B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 830175B92A44AC87008CAD8B /* Assets.xcassets */; };
 		830175C62A44ACB4008CAD8B /* SpatialRenderingEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 830175C42A44ACB4008CAD8B /* SpatialRenderingEngine.mm */; };
 		830175CA2A44BE8C008CAD8B /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 830175C82A44BE8C008CAD8B /* Metal.framework */; };
@@ -25,9 +32,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F2470552B16DD8900F4278D /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		4F2470572B16DDCE00F4278D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4F2470582B16DDCE00F4278D /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		4F24705A2B16DDFD00F4278D /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		4F24705B2B16DDFD00F4278D /* SceneDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SceneDelegate.mm; sourceTree = "<group>"; };
+		4F24705D2B16DF1A00F4278D /* ImmersiveSceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImmersiveSceneDelegate.h; sourceTree = "<group>"; };
+		4F24705E2B16DF1A00F4278D /* ImmersiveSceneDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ImmersiveSceneDelegate.mm; sourceTree = "<group>"; };
+		4F2470632B1711F600F4278D /* CoreAudioTypes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioTypes.framework; path = System/Library/Frameworks/CoreAudioTypes.framework; sourceTree = SDKROOT; };
+		4F2470652B17123A00F4278D /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = System/Library/Frameworks/RealityKit.framework; sourceTree = SDKROOT; };
+		4F2470672B17127300F4278D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4F2470692B17128800F4278D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4F24706B2B1712BD00F4278D /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
+		4F24706E2B1712D300F4278D /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		4F2470702B1712F100F4278D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4F2470732B17131000F4278D /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		830175AA2A44AC87008CAD8B /* FullyImmersiveMetal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FullyImmersiveMetal.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		830175B12A44AC87008CAD8B /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
-		830175B32A44AC87008CAD8B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		830175B92A44AC87008CAD8B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		830175C32A44ACB4008CAD8B /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
 		830175C42A44ACB4008CAD8B /* SpatialRenderingEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SpatialRenderingEngine.mm; sourceTree = "<group>"; };
@@ -53,11 +73,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F2470712B1712F100F4278D /* QuartzCore.framework in Frameworks */,
 				830175CA2A44BE8C008CAD8B /* Metal.framework in Frameworks */,
+				4F2470682B17127300F4278D /* UIKit.framework in Frameworks */,
+				4F2470722B17130000F4278D /* CoreGraphics.framework in Frameworks */,
+				4F2470742B17131000F4278D /* ImageIO.framework in Frameworks */,
 				830175CD2A44BE96008CAD8B /* Foundation.framework in Frameworks */,
 				830175CB2A44BE8C008CAD8B /* MetalKit.framework in Frameworks */,
 				830175CF2A44BE9B008CAD8B /* CompositorServices.framework in Frameworks */,
 				8394CE8C2A44E2D2005A8B04 /* ModelIO.framework in Frameworks */,
+				4F24706C2B1712BD00F4278D /* ARKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +109,13 @@
 		830175AC2A44AC87008CAD8B /* FullyImmersiveMetal */ = {
 			isa = PBXGroup;
 			children = (
+				4F2470552B16DD8900F4278D /* main.mm */,
+				4F2470572B16DDCE00F4278D /* AppDelegate.h */,
+				4F2470582B16DDCE00F4278D /* AppDelegate.mm */,
+				4F24705A2B16DDFD00F4278D /* SceneDelegate.h */,
+				4F24705B2B16DDFD00F4278D /* SceneDelegate.mm */,
+				4F24705D2B16DF1A00F4278D /* ImmersiveSceneDelegate.h */,
+				4F24705E2B16DF1A00F4278D /* ImmersiveSceneDelegate.mm */,
 				8394CE902A44E44F005A8B04 /* ShaderTypes.h */,
 				8394CE8E2A44E3CA005A8B04 /* Mesh.h */,
 				8394CE8D2A44E3CA005A8B04 /* Mesh.mm */,
@@ -91,8 +123,6 @@
 				8394CE912A44E67C005A8B04 /* SpatialRenderer.mm */,
 				830175C52A44ACB4008CAD8B /* SpatialRenderingEngine.h */,
 				830175C42A44ACB4008CAD8B /* SpatialRenderingEngine.mm */,
-				830175B32A44AC87008CAD8B /* ContentView.swift */,
-				830175B12A44AC87008CAD8B /* App.swift */,
 				8394CE852A44D36D005A8B04 /* SceneShaders.metal */,
 				8394CE892A44DD41005A8B04 /* EnvironmentShaders.metal */,
 				830175C32A44ACB4008CAD8B /* Bridging.h */,
@@ -106,6 +136,14 @@
 		830175C72A44BE8C008CAD8B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F2470732B17131000F4278D /* ImageIO.framework */,
+				4F2470702B1712F100F4278D /* QuartzCore.framework */,
+				4F24706E2B1712D300F4278D /* CoreImage.framework */,
+				4F24706B2B1712BD00F4278D /* ARKit.framework */,
+				4F2470692B17128800F4278D /* CoreGraphics.framework */,
+				4F2470672B17127300F4278D /* UIKit.framework */,
+				4F2470652B17123A00F4278D /* RealityKit.framework */,
+				4F2470632B1711F600F4278D /* CoreAudioTypes.framework */,
 				8394CE8B2A44E2D2005A8B04 /* ModelIO.framework */,
 				830175CE2A44BE9B008CAD8B /* CompositorServices.framework */,
 				830175CC2A44BE96008CAD8B /* Foundation.framework */,
@@ -191,11 +229,13 @@
 			files = (
 				8394CE862A44D36D005A8B04 /* SceneShaders.metal in Sources */,
 				8394CE932A44E67C005A8B04 /* SpatialRenderer.mm in Sources */,
+				4F2470592B16DDCE00F4278D /* AppDelegate.mm in Sources */,
 				8394CE8A2A44DD41005A8B04 /* EnvironmentShaders.metal in Sources */,
-				830175B42A44AC87008CAD8B /* ContentView.swift in Sources */,
 				830175C62A44ACB4008CAD8B /* SpatialRenderingEngine.mm in Sources */,
-				830175B22A44AC87008CAD8B /* App.swift in Sources */,
+				4F24705C2B16DDFD00F4278D /* SceneDelegate.mm in Sources */,
+				4F2470562B16DD8900F4278D /* main.mm in Sources */,
 				8394CE8F2A44E3CA005A8B04 /* Mesh.mm in Sources */,
+				4F24705F2B16DF1A00F4278D /* ImmersiveSceneDelegate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
