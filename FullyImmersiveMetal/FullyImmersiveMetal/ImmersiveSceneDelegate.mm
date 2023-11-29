@@ -23,11 +23,12 @@
 
 // CPConfigurationProvider
 - (cp_layer_renderer_configuration_t)layerConfigurationWithDefaultConfiguration:(cp_layer_renderer_configuration_t)defaultConfiguration layerCapabilites:(cp_layer_renderer_capabilities_t)layerCapabilites {
-    cp_layer_renderer_configuration_set_layout(defaultConfiguration, cp_layer_renderer_layout_dedicated);
-    cp_layer_renderer_configuration_set_foveation_enabled(defaultConfiguration, cp_layer_renderer_capabilities_supports_foveation(layerCapabilites));
-    cp_layer_renderer_configuration_set_color_format(defaultConfiguration, MTLPixelFormatRGBA16Float);
+    cp_layer_renderer_configuration_t copy = [defaultConfiguration copy];
+    cp_layer_renderer_configuration_set_layout(copy, cp_layer_renderer_layout_dedicated);
+    cp_layer_renderer_configuration_set_foveation_enabled(copy, cp_layer_renderer_capabilities_supports_foveation(layerCapabilites));
+    cp_layer_renderer_configuration_set_color_format(copy, MTLPixelFormatRGBA16Float);
     
-    return defaultConfiguration;
+    return copy;
 }
 
 @end
