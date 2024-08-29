@@ -9,6 +9,7 @@
 #import "ImmersiveSceneDelegate.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
+#import <dlfcn.h>
 #import <CompositorServices/CompositorServices.h>
 
 CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
@@ -159,7 +160,7 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     
     id initialClientSettings = [objc_lookUpClass("MRUIMutableImmersiveSceneClientSettings") new];
     reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(initialClientSettings, NSSelectorFromString(@"setPreferredImmersionStyle:"), preferredImmersionStyle);
-    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(initialClientSettings, NSSelectorFromString(@"setAllowedImmersionStyles:"), preferredImmersionStyle);
+    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(initialClientSettings, NSSelectorFromString(@"setAllowedImmersionStyles:"), 10);
     
     reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(options, sel_registerName("setInitialClientSettings:"), initialClientSettings);
     [initialClientSettings release];
@@ -182,6 +183,12 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     [options release];
     
     self.immersionStyle = preferredImmersionStyle;
+    
+    if (preferredImmersionStyle == 2) {
+        self.immersiveSceneDelegate.configuration.immersionStyle = SRImmersionStyleMixed;
+    } else {
+        self.immersiveSceneDelegate.configuration.immersionStyle = SRImmersionStyleFull;
+    }
 }
 
 - (void)updateSceneWithPreferredImmersionStyle:(NSUInteger)preferredImmersionStyle {
@@ -205,7 +212,7 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     
     id initialClientSettings = [objc_lookUpClass("MRUIMutableImmersiveSceneClientSettings") new];
     reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(initialClientSettings, NSSelectorFromString(@"setPreferredImmersionStyle:"), preferredImmersionStyle);
-    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(initialClientSettings, NSSelectorFromString(@"setAllowedImmersionStyles:"), preferredImmersionStyle);
+    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(initialClientSettings, NSSelectorFromString(@"setAllowedImmersionStyles:"), 10);
     
     reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(options, sel_registerName("setInitialClientSettings:"), initialClientSettings);
     [initialClientSettings release];
@@ -223,6 +230,12 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     [options release];
     
     self.immersionStyle = preferredImmersionStyle;
+    
+    if (preferredImmersionStyle == 2) {
+        self.immersiveSceneDelegate.configuration.immersionStyle = SRImmersionStyleMixed;
+    } else {
+        self.immersiveSceneDelegate.configuration.immersionStyle = SRImmersionStyleFull;
+    }
 }
 
 - (__kindof UIWindowScene *)connectedImmsersiveScene {
@@ -238,6 +251,26 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
 
 - (ImmersiveSceneDelegate *)immersiveSceneDelegate {
     return (ImmersiveSceneDelegate *)self.connectedImmsersiveScene.delegate;
+}
+
+- (void)setImmersionStyle:(NSUInteger)immersionStyle {
+    _immersionStyle = immersionStyle;
+    
+    UIButtonConfiguration *configuration = [UIButtonConfiguration plainButtonConfiguration];
+    
+    NSString *string;
+    
+    void *handle = dlopen("/System/Library/PrivateFrameworks/MRUIKit.framework/MRUIKit", RTLD_NOW);
+    void *symbol = dlsym(handle, "_NSStringFromMRUIImmersionStyle");
+    if (immersionStyle == 2) {
+        string = reinterpret_cast<id (*)(NSUInteger)>(symbol)(8);
+    } else {
+        string = reinterpret_cast<id (*)(NSUInteger)>(symbol)(2);
+    }
+    
+    configuration.title = [NSString stringWithFormat:@"Switch to %@", string];
+    
+    self.toggleImmsersiveSceneStyleButton.configuration = configuration;
 }
 
 @end
