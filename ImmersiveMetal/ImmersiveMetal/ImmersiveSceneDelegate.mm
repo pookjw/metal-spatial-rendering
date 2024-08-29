@@ -13,16 +13,6 @@
 @implementation ImmersiveSceneDelegate
 @synthesize configuration = _configuration;
 
-- (BOOL)respondsToSelector:(SEL)aSelector {
-    BOOL responds = [super respondsToSelector:aSelector];
-    
-    if (!responds) {
-        NSLog(@"%s", sel_getName(aSelector));
-    }
-    
-    return responds;
-}
-
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     id fbsScene = reinterpret_cast<id (*)(id, SEL)>(objc_msgSend)(connectionOptions, sel_registerName("_fbsScene"));
     reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(fbsScene, sel_registerName("addObserver:"), self);
