@@ -6,19 +6,28 @@
 //
 
 #import "ImmersiveSceneDelegate.h"
-#import "SpatialRenderingEngine.h"
 #import <CompositorServices/CompositorServices.h>
 #import <objc/message.h>
 #import <objc/runtime.h>
 
 @implementation ImmersiveSceneDelegate
+@synthesize configuration = _configuration;
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(scene, NSSelectorFromString(@"setConfigurationProvider:"), self);
     
     cp_layer_renderer_t layerRenderer = reinterpret_cast<id (*)(id, SEL)>(objc_msgSend)(scene, NSSelectorFromString(@"layer"));
     
-    SpatialRenderer_InitAndRun(layerRenderer, [[SRConfiguration alloc] initWithImmersionStyle:SRImmersionStyleFull]);
+    SpatialRenderer_InitAndRun(layerRenderer, self.configuration);
+}
+
+- (SRConfiguration *)configuration {
+    if (auto configuration = _configuration) return configuration;
+    
+    SRConfiguration *configuration = [[SRConfiguration alloc] initWithImmersionStyle:SRImmersionStyleMixed];
+    
+    _configuration = configuration;
+    return configuration;
 }
 
 // CPConfigurationProvider

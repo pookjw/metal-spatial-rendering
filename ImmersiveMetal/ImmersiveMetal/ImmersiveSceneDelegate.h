@@ -6,11 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SpatialRenderingEngine.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ImmersiveSceneDelegate : UIResponder <UIWindowSceneDelegate>
-
+@property (strong, nonatomic, readonly) SRConfiguration *configuration;
 @end
 
 NS_ASSUME_NONNULL_END
