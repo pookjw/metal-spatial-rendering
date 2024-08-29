@@ -36,7 +36,21 @@
 // CPConfigurationProvider
 - (cp_layer_renderer_configuration_t)layerConfigurationWithDefaultConfiguration:(cp_layer_renderer_configuration_t)defaultConfiguration layerCapabilites:(cp_layer_renderer_capabilities_t)layerCapabilites {
     cp_layer_renderer_configuration_t copy = [defaultConfiguration copy];
-    cp_layer_renderer_configuration_set_layout(copy, cp_layer_renderer_layout_dedicated);
+    
+    size_t supportedLayoutsCount = cp_layer_renderer_capabilities_supported_layouts_count(layerCapabilites, cp_supported_layouts_options_none);
+    
+    bool isLayeredSupported = false;
+    for (size_t index = 0; index < supportedLayoutsCount; index++) {
+        cp_layer_renderer_layout supportedLayout = cp_layer_renderer_capabilities_supported_layout(layerCapabilites, cp_supported_layouts_options_none, index);
+        
+        if (supportedLayout == cp_layer_renderer_layout_layered) {
+            isLayeredSupported = true;
+            break;
+        }
+        
+    }
+    
+    cp_layer_renderer_configuration_set_layout(copy, isLayeredSupported ? cp_layer_renderer_layout_layered : cp_layer_renderer_layout_dedicated);
     cp_layer_renderer_configuration_set_foveation_enabled(copy, cp_layer_renderer_capabilities_supports_foveation(layerCapabilites));
     cp_layer_renderer_configuration_set_color_format(copy, MTLPixelFormatRGBA16Float);
     
