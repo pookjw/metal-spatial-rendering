@@ -109,15 +109,15 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
             
         }];
     } else {
-        [self requestSceneWithPreferredImmersionStyle:2 includeUserActivity:YES];
+        [self requestSceneWithPreferredImmersionStyle:2];
     }
 }
 
 - (void)didTriggerToggleImmsersiveSceneStyleButton:(UIButton *)sender {
     if (self.immersionStyle == 2) {
-        [self requestSceneWithPreferredImmersionStyle:8 includeUserActivity:NO];
+        [self updateSceneWithPreferredImmersionStyle:8];
     } else {
-        [self requestSceneWithPreferredImmersionStyle:2 includeUserActivity:NO];
+        [self updateSceneWithPreferredImmersionStyle:2];
     }
 }
 
@@ -142,7 +142,7 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     self.toggleImmersiveSceneVisibilityButton.configuration = configuration;
 }
 
-- (void)requestSceneWithPreferredImmersionStyle:(NSUInteger)preferredImmersionStyle includeUserActivity:(BOOL)includeUserActivity {
+- (void)requestSceneWithPreferredImmersionStyle:(NSUInteger)preferredImmersionStyle {
     id options = [objc_lookUpClass("MRUISceneRequestOptions") new];
     
     reinterpret_cast<void (*)(id, SEL, BOOL)>(objc_msgSend)(options, NSSelectorFromString(@"setInternalFrameworksScene:"), NO);
@@ -166,15 +166,9 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     
     //
     
-    NSUserActivity * _Nullable userActivity;
-    
-    if (includeUserActivity) {
-        userActivity = [[NSUserActivity alloc] initWithActivityType:@"com.metalbyexample.FullyImmersiveMetal.openWindowByID"];
-        userActivity.requiredUserInfoKeys = [NSSet setWithObject:@"com.apple.SwiftUI.sceneID"];
-        userActivity.userInfo = @{@"com.apple.SwiftUI.sceneID": @"ImmersiveSpace"};
-    } else {
-        userActivity = nil;
-    }
+    NSUserActivity * userActivity = [[NSUserActivity alloc] initWithActivityType:@"com.metalbyexample.FullyImmersiveMetal.openWindowByID"];
+    userActivity.requiredUserInfoKeys = [NSSet setWithObject:@"com.apple.SwiftUI.sceneID"];
+    userActivity.userInfo = @{@"com.apple.SwiftUI.sceneID": @"ImmersiveSpace"};
     
     reinterpret_cast<void (*)(id, SEL, id, id, id)>(objc_msgSend)(UIApplication.sharedApplication,
                                                                   NSSelectorFromString(@"mrui_requestSceneWithUserActivity:requestOptions:completionHandler:"),
@@ -185,6 +179,47 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     });
     
     [userActivity release];
+    [options release];
+    
+    self.immersionStyle = preferredImmersionStyle;
+}
+
+- (void)updateSceneWithPreferredImmersionStyle:(NSUInteger)preferredImmersionStyle {
+    auto connectedImmsersiveScene = self.connectedImmsersiveScene;
+    if (connectedImmsersiveScene == nil) return;
+    
+    id options = [objc_lookUpClass("MRUISceneRequestOptions") new];
+    
+    reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(options, sel_registerName("setSubstitutingSceneSessionIdentifier:"), connectedImmsersiveScene.session.persistentIdentifier);
+    reinterpret_cast<void (*)(id, SEL, BOOL)>(objc_msgSend)(options, NSSelectorFromString(@"setInternalFrameworksScene:"), NO);
+    reinterpret_cast<void (*)(id, SEL, BOOL)>(objc_msgSend)(options, NSSelectorFromString(@"setDisableDefocusBehavior:"), NO);
+    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(options, NSSelectorFromString(@"setPreferredImmersionStyle:"), preferredImmersionStyle);
+    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(options, NSSelectorFromString(@"setAllowedImmersionStyles:"), 10);
+    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(options, NSSelectorFromString(@"setSceneRequestIntent:"), 1001);
+    
+    id specification = [objc_lookUpClass("CPImmersiveSceneSpecification_SwiftUI") new];
+    reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(options, NSSelectorFromString(@"setSpecification:"), specification);
+    [specification release];
+    
+    //
+    
+    id initialClientSettings = [objc_lookUpClass("MRUIMutableImmersiveSceneClientSettings") new];
+    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(initialClientSettings, NSSelectorFromString(@"setPreferredImmersionStyle:"), preferredImmersionStyle);
+    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(initialClientSettings, NSSelectorFromString(@"setAllowedImmersionStyles:"), preferredImmersionStyle);
+    
+    reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(options, sel_registerName("setInitialClientSettings:"), initialClientSettings);
+    [initialClientSettings release];
+    
+    //
+    
+    reinterpret_cast<void (*)(id, SEL, id, id, id)>(objc_msgSend)(UIApplication.sharedApplication,
+                                                                  NSSelectorFromString(@"mrui_requestSceneWithUserActivity:requestOptions:completionHandler:"),
+                                                                  nil,
+                                                                  options,
+                                                                  ^(NSError * _Nullable error) {
+        
+    });
+    
     [options release];
     
     self.immersionStyle = preferredImmersionStyle;
