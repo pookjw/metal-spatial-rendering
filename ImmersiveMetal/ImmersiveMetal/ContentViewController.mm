@@ -109,15 +109,15 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
             
         }];
     } else {
-        [self requestSceneWithPreferredImmersionStyle:2];
+        [self requestSceneWithPreferredImmersionStyle:2 includeUserActivity:YES];
     }
 }
 
 - (void)didTriggerToggleImmsersiveSceneStyleButton:(UIButton *)sender {
     if (self.immersionStyle == 2) {
-        [self requestSceneWithPreferredImmersionStyle:8];
+        [self requestSceneWithPreferredImmersionStyle:8 includeUserActivity:NO];
     } else {
-        [self requestSceneWithPreferredImmersionStyle:2];
+        [self requestSceneWithPreferredImmersionStyle:2 includeUserActivity:NO];
     }
 }
 
@@ -142,7 +142,7 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     self.toggleImmersiveSceneVisibilityButton.configuration = configuration;
 }
 
-- (void)requestSceneWithPreferredImmersionStyle:(NSUInteger)preferredImmersionStyle {
+- (void)requestSceneWithPreferredImmersionStyle:(NSUInteger)preferredImmersionStyle includeUserActivity:(BOOL)includeUserActivity {
     id options = [objc_lookUpClass("MRUISceneRequestOptions") new];
     
     reinterpret_cast<void (*)(id, SEL, BOOL)>(objc_msgSend)(options, NSSelectorFromString(@"setInternalFrameworksScene:"), NO);
@@ -166,9 +166,15 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
     
     //
     
-    NSUserActivity *userActivity = [[NSUserActivity alloc] initWithActivityType:@"com.metalbyexample.FullyImmersiveMetal.openWindowByID"];
-    userActivity.requiredUserInfoKeys = [NSSet setWithObject:@"com.apple.SwiftUI.sceneID"];
-    userActivity.userInfo = @{@"com.apple.SwiftUI.sceneID": @"ImmersiveSpace"};
+    NSUserActivity * _Nullable userActivity;
+    
+    if (includeUserActivity) {
+        userActivity = [[NSUserActivity alloc] initWithActivityType:@"com.metalbyexample.FullyImmersiveMetal.openWindowByID"];
+        userActivity.requiredUserInfoKeys = [NSSet setWithObject:@"com.apple.SwiftUI.sceneID"];
+        userActivity.userInfo = @{@"com.apple.SwiftUI.sceneID": @"ImmersiveSpace"};
+    } else {
+        userActivity = nil;
+    }
     
     reinterpret_cast<void (*)(id, SEL, id, id, id)>(objc_msgSend)(UIApplication.sharedApplication,
                                                                   NSSelectorFromString(@"mrui_requestSceneWithUserActivity:requestOptions:completionHandler:"),

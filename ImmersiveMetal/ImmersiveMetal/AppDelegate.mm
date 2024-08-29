@@ -9,6 +9,9 @@
 #import "SceneDelegate.h"
 #import "ImmersiveSceneDelegate.h"
 #import <objc/runtime.h>
+#import <CompositorServices/CompositorServices.h>
+
+CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
 
 @implementation AppDelegate
 
@@ -31,6 +34,14 @@
         configuration.delegateClass = ImmersiveSceneDelegate.class;
         configuration.sceneClass = NSClassFromString(@"CPImmersiveScene");
         return configuration;
+    } else if ([connectingSceneSession.role isEqualToString:CPSceneSessionRoleImmersiveSpaceApplication]) {
+        for (__kindof UIScene *scene in application.connectedScenes) {
+            if ([scene.session.role isEqualToString:CPSceneSessionRoleImmersiveSpaceApplication]) {
+                return scene.session.configuration;
+            }
+        }
+        
+        return nil;
     } else {
         UISceneConfiguration *configuration = connectingSceneSession.configuration;
         configuration.delegateClass = SceneDelegate.class;
