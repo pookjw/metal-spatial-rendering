@@ -31,6 +31,8 @@ CP_EXTERN const UISceneSessionRole CPSceneSessionRoleImmersiveSpaceApplication;
 @synthesize portalCutoffAngleSlider = _portalCutoffAngleSlider;
 
 - (void)dealloc {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+    
     [_stackView release];
     [_toggleImmersiveSceneVisibilityButton release];
     [_toggleImmsersiveSceneStyleButton release];
